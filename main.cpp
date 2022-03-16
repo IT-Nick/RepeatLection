@@ -7,54 +7,45 @@
 
 using namespace std;
 
-//lower_bound, prev, тернарный оператор
-//Напиши функцию FindNearestElement, возвращающую итератор на элемент множества, ближайший к border.
-//Если ближайших элементов несколько, верни итератор на наименьший иp них.
-//set<int>::const_iterator - тип итераторов для константного множества целых чисел
-//
 
-/*int main() {
-    set<int> numbers = {1, 4, 6};
-    cout <<
-         *FindNearestElement(numbers, 0) << " " << //1
-         *FindNearestElement(numbers, 3) << " " << //4
-         *FindNearestElement(numbers, 5) << " " << //4
-         *FindNearestElement(numbers, 6) << " " << //6
-         *FindNearestElement(numbers, 100) << endl;//6
 
-    set<int> empty_set;
-    cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << endl;//1
+/Степа Плеханов, [22.02.2022 02:40]
+Напишите функцию, разбивающую строку на слова по пробелам.
+vector<string> SplitIntoWords(const string& s);
+(ищи пробел с помощью find, создавай слово с помощью констркуктора строки по двум итераторам)
+
+Степа Плеханов, [22.02.2022 02:40]
+Пример кода:
+int main() {
+    string s = "C Cpp Java Python";
+
+    vector<string> words = SplitIntoWords(s);
+    cout << words.size() << " ";
+    for (auto it = begin(words); it != end(words); ++it) {
+        if (it != begin(words)) {
+            cout << "/";
+        }
+        cout << *it;
+    }
+    cout << endl;
+
     return 0;
 }
  */
 
-set<int>::const_iterator FindNearestElement(const set<int>& elements, int border) {
-    auto first = elements.lower_bound(border);
-    if(first == elements.begin()) {
-        return first;
-    }
-    auto last = prev(first);
-    if(first == elements.end()) {
-        return last;
-    }
 
-    if(border - *last <= *first - border) {
-        return last;
-    } else {
-        return first;
-    }
-}
 
 int main() {
-    set<int> numbers = {1, 4, 6};
-    cout <<
-         *FindNearestElement(numbers, 0) << " " << //1
-         *FindNearestElement(numbers, 3) << " " << //4
-         *FindNearestElement(numbers, 5) << " " << //4
-         *FindNearestElement(numbers, 6) << " " << //6
-         *FindNearestElement(numbers, 100) << endl;//6
+    g s = "C Cpp Java Python";
 
-    set<int> empty_set;
-    cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << endl;//1
+    vector<string> words = SplitIntoWords(s);
+    cout << words.size() << " ";
+    for (auto it = begin(words); it != end(words); ++it) {
+        if (it != begin(words)) {
+            cout << "/";
+        }
+        cout << *it;
+    }
+    c
     return 0;
 }
