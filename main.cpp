@@ -1,91 +1,60 @@
 #include <iostream>
 #include <vector>
-#include "operators.h"
-#include "matrix.h"
-#include <map>
 #include <algorithm>
+#include <set>
+#include <iterator>
+
 
 using namespace std;
 
+//lower_bound, prev, тернарный оператор
+//Напиши функцию FindNearestElement, возвращающую итератор на элемент множества, ближайший к border.
+//Если ближайших элементов несколько, верни итератор на наименьший иp них.
+//set<int>::const_iterator - тип итераторов для константного множества целых чисел
 //
-//Напиши функцию, принимающую множество elements и объект border,
-//которая возвращает вектор из всех элементов множества, больших border, в возрастающем порядке
-//template <typename T>
-//vector<T> FindGreaterElements(const set<T>& elements, const T& border);
 
-//Пример кода:
-//int main() {
-//  for (int x : FindGreaterElements(set<int>{1, 5, 7, 8}, 5)) {
-//    cout << x << " ";
-//  }
-//  cout << endl;
-//
-//  string to_find = "Python";
-//  cout << FindGreaterElements(set<string>{"C", "C++"}, to_find).size() << endl;
-//  return 0;
-//}
-//http://ru.cppreference.com/w/cpp/container/set/lower_bound
-template<typename T>
-vector<T> FindGreaterElements(const set<T>& elements, const T& border) {
-    auto it = find_if(begin(elements), elements.end(), [border](const T& element) {
-        return border < element;
-    });
+/*int main() {
+    set<int> numbers = {1, 4, 6};
+    cout <<
+         *FindNearestElement(numbers, 0) << " " << //1
+         *FindNearestElement(numbers, 3) << " " << //4
+         *FindNearestElement(numbers, 5) << " " << //4
+         *FindNearestElement(numbers, 6) << " " << //6
+         *FindNearestElement(numbers, 100) << endl;//6
 
-    return vector<T>(it, end(elements));
+    set<int> empty_set;
+    cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << endl;//1
+    return 0;
+}
+ */
+
+set<int>::const_iterator FindNearestElement(const set<int>& elements, int border) {
+    auto first = elements.lower_bound(border);
+    if(first == elements.begin()) {
+        return first;
+    }
+    auto last = prev(first);
+    if(first == elements.end()) {
+        return last;
+    }
+
+    if(border - *last <= *first - border) {
+        return last;
+    } else {
+        return first;
+    }
 }
 
 int main() {
-//https://www.cryptool.org/en/cto/vigenere
-    Matrix m;
-    string alpha;
-    cin >> alpha; //АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ_
-    cin >> m;
-    cout << m;
-    vector<int> shifts;
-    BuildChars(m, alpha, shifts);
-    int zeroShift = shifts[0];
-    int oneShift = shifts[1];
-    int twoShift = shifts[2];
-    int threeShift = shifts[3];
-    oneShift += 33 - zeroShift;
-    twoShift += 33 - zeroShift;
-    threeShift += 33 - zeroShift;
+    set<int> numbers = {1, 4, 6};
+    cout <<
+         *FindNearestElement(numbers, 0) << " " << //1
+         *FindNearestElement(numbers, 3) << " " << //4
+         *FindNearestElement(numbers, 5) << " " << //4
+         *FindNearestElement(numbers, 6) << " " << //6
+         *FindNearestElement(numbers, 100) << endl;//6
 
-    for(int j = 128; j <= 159; j++) {
-        int fk = j - oneShift;
-        int tk = j - twoShift;
-        int fok = j - threeShift;
-        if(fk < 128) {
-            fk += 33;
-            if (fk == 159) {
-                fk = 128;
-            }
-        }
-        if(tk < 128) {
-            tk += 33;
-            if (tk == 159) {
-                tk = 128;
-            }
-        }
-        if(fok < 128) {
-            fok += 33;
-            if (fok == 159) {
-                fok = 128;
-            }
-        }
-        cout << (char) j << (char) fk << (char) tk << (char) fok << endl;
-    }
-
-    //PrintMap(BuildChars(m));
-    //A E A O
-   //A:2 E:1 O:1
-    /*
-    A B C D
-    E F G H
-    A B K H
-    O B N P
-m.At(i, 1)
-    A: 2 B: 3 C: 0 H: 2
-    */
+    set<int> empty_set;
+    cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << endl;//1
     return 0;
 }
